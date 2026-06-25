@@ -1,3 +1,4 @@
+//Exercise 2
 abstract class Document{
 	abstract void create();
 }
