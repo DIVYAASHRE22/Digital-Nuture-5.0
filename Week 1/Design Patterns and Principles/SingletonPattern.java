@@ -1,3 +1,4 @@
+//Exercise 1
 public class SingletonPattern{
 	static class Logger{
 		public static Logger instance;
