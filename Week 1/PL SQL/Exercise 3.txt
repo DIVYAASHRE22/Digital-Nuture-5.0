@@ -1,0 +1,40 @@
+--Exercise 3
+--Process Monthly Interest
+CREATE OR REPLACE PROCEDURE ProcessMonthlyInterest AS
+BEGIN
+  UPDATE Accounts
+  SET Balance=Balance*1.01
+  WHERE AccountType='Savings';
+  COMMIT;
+END;
+/
+
+--Update Employee Bonus
+CREATE OR REPLACE PROCEDURE UpdateEmployeeBonus(
+d VARCHAR2,b NUMBER)
+AS
+BEGIN
+  UPDATE Employees
+  SET Salary=Salary+(Salary*b/100)
+  WHERE Department=d;
+  COMMIT;
+END;
+/
+
+--Transfer Funds
+CREATE OR REPLACE PROCEDURE TransferFunds(
+f NUMBER,t NUMBER,a NUMBER)
+AS
+  bal NUMBER;
+BEGIN
+  SELECT Balance INTO bal
+  FROM Accounts
+  WHERE AccountID=f;
+
+  IF bal>=a THEN
+    UPDATE Accounts SET Balance=Balance-a WHERE AccountID=f;
+    UPDATE Accounts SET Balance=Balance+a WHERE AccountID=t;
+    COMMIT;
+  END IF;
+END;
+/

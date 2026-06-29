@@ -1,0 +1,38 @@
+--Excercise 1
+--Apply 1% Discount for Customers Above 60
+BEGIN
+  FOR r IN (
+    SELECT l.LoanID
+    FROM Customers c JOIN Loans l
+    ON c.CustomerID=l.CustomerID
+    WHERE FLOOR(MONTHS_BETWEEN(SYSDATE,DOB)/12)>60
+  ) LOOP
+    UPDATE Loans
+    SET InterestRate=InterestRate-1
+    WHERE LoanID=r.LoanID;
+  END LOOP;
+  COMMIT;
+END;
+/
+
+--Set VIP Status
+BEGIN
+  UPDATE Customers
+  SET IsVIP='TRUE'
+  WHERE Balance>10000;
+
+  COMMIT;
+END;
+/
+
+--Loan Reminder
+BEGIN
+  FOR r IN (
+    SELECT CustomerID,LoanID
+    FROM Loans
+    WHERE EndDate BETWEEN SYSDATE AND SYSDATE+30
+  ) LOOP
+    DBMS_OUTPUT.PUT_LINE('Reminder for Customer '||r.CustomerID);
+  END LOOP;
+END;
+/
